@@ -1,12 +1,18 @@
+/*
+ * @Author: jack ning github@bytedesk.com
+ * @Date: 2024-01-27 18:10:45
+ * @LastEditors: jack ning github@bytedesk.com
+ * @LastEditTime: 2024-01-27 18:13:08
+ * @FilePath: /springsecuritytutorial/src/main/java/com/tutorial/springsecurityjwt/auth/AuthUser.java
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 package com.tutorial.springsecurityjwt.auth;
 
 import com.tutorial.springsecurityjwt.user.User;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 public class AuthUser extends User implements UserDetails {
 

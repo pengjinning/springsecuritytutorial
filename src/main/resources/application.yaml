@@ -2,23 +2,24 @@ spring:
   application:
     name: spring-security-jwt
   datasource:
-    url: jdbc:postgresql://localhost:5432/spring-security
-    username:
-    password:
-    driver-class-name: org.postgresql.Driver
+    # url: jdbc:postgresql://localhost:5432/spring-security
+    url: jdbc:mysql://127.0.0.1:3306/spring-security
+    username: root
+    password: C8aJEVCCvSA1VFi8
+    # driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update #create-drop
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        # dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    # database: postgresql
+    # database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 server:
-  port: 8000
+  port: 1001
   error:
     include-message: always
 

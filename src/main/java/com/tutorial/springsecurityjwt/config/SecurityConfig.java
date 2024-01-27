@@ -7,8 +7,6 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.tutorial.springsecurityjwt.auth.JpaUserDetailsService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,13 +32,14 @@ import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    // private static final Logger log =
+    // LoggerFactory.getLogger(SecurityConfig.class);
 
-    private static final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
     @Autowired
     private RsaKeyConfigProperties rsaKeyConfigProperties;
+
     @Autowired
     private JpaUserDetailsService userDetailsService;
-
 
     @Bean
     public AuthenticationManager authManager() {
@@ -51,10 +50,9 @@ public class SecurityConfig {
         return new ProviderManager(authProvider);
     }
 
-
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector)
+            throws Exception {
 
         return http
                 .csrf(csrf -> {
@@ -62,7 +60,7 @@ public class SecurityConfig {
                 })
                 .cors(cors -> cors.disable())
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/error/**").permitAll();
+                    auth.requestMatchers("/error/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll();
                     auth.requestMatchers("/api/auth/**").permitAll();
                     auth.anyRequest().authenticated();
                 })
@@ -80,7 +78,8 @@ public class SecurityConfig {
 
     @Bean
     JwtEncoder jwtEncoder() {
-        JWK jwk = new RSAKey.Builder(rsaKeyConfigProperties.publicKey()).privateKey(rsaKeyConfigProperties.privateKey()).build();
+        JWK jwk = new RSAKey.Builder(rsaKeyConfigProperties.publicKey()).privateKey(rsaKeyConfigProperties.privateKey())
+                .build();
 
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
@@ -91,4 +90,3 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
-
